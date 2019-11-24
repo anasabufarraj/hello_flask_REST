@@ -1,26 +1,25 @@
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Welcome Flask!</title>
-  <script type="text/javascript">
-      function httpGetAsync(theUrl, callback) {
-          let xmlHttp = new XMLHttpRequest();
-          xmlHttp.onreadystatechange = function() {
-              if (xmlHttp.readyState === 4 && xmlHttp.status === 200)
-                  callback(xmlHttp.responseText);
-          };
-          xmlHttp.open('GET', theUrl, true); // true for asynchronous
-          xmlHttp.send(null);
-      }
+    <meta charset="UTF-8" />
+    <title>Welcome Flask!</title>
+    <script type="text/javascript">
+        function httpGetAsync(theUrl, callback) {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = function() {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    callback(xhr.responseText);
+                }
+            };
+            xhr.open('GET', theUrl, true); // true for asynchronous
+            xhr.send(null);
+        }
 
-      httpGetAsync(
-          'http://127.0.0.1:5000/store', function(response) {
-              alert(response);
-          }
-      );
-  </script>
+        httpGetAsync('http://127.0.0.1:5000/store', function(response) {
+            alert(response);
+        });
+    </script>
 </head>
 <body>
-  <div id="myElement">Hello, world!</div>
+    <div id="myElement">Hello, world!</div>
 </body>
 </html>

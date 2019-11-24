@@ -30,49 +30,75 @@ stores = [{
 
 @app.route('/')
 def index():
+    """Returns home page template.
+    
+    :return: rendered template
+    """
     return render_template('index.html')
 
 
 @app.route('/store', methods=['POST'])
 def create_store():
+    """Creates a new store and returns it as jsonify object.
+    
+    :return: jsonify new created 'store' object.
+    """
     request_data = request.get_json()
-    new_store = {'name': request_data['name'], 'item': []}
+    new_store = {'name': request_data['name'], 'items': []}
     stores.append(new_store)
 
     return jsonify(new_store)
 
 
-@app.route('/store/<string:name>')
-def get_store(name):
+@app.route('/store/<string:store_name>')
+def get_store(store_name):
+    """Returns a store name if exists, otherwise returns jsonified 'not found' object.
+    
+    :param store_name: string
+    :returns: jsonify 'store' object, or jsonified 'not found' object.
+    """
     for store in stores:
-        if store['name'] == name:
+        if store['name'] == store_name:
             return jsonify(store)
 
     return jsonify({'message': 'store not found'})
 
 
 @app.route('/store')
-def get_stores():
-    """Returns a JSON object with main key and value as list of dictionaries."""
+def get_all_stores():
+    """Returns a JSON object contains all stores with main key and a value as list of dictionaries.
+    
+    :return: jsonify 'stores' object.
+    """
     return jsonify({'stores': stores})
 
 
-@app.route('/store/<string:name>/item', methods=['POST'])
-def create_item_in_store(name):
+@app.route('/store/<string:store_name>/item', methods=['POST'])
+def create_item_in_store(store_name):
+    """ TODO: add description
+    
+    :param store_name: string
+    :return: jsonify 'store' object, or jsonified 'not found' object.
+    """
     request_data = request.get_json()
     for store in stores:
-        if store['name'] == name:
+        if store['name'] == store_name:
             new_item = {'name': request_data['name'], 'price': request_data['price']}
-            store['item'].append(new_item)
+            store['items'].append(new_item)
             return jsonify(new_item)
 
     return jsonify({'message': 'store not found'})
 
 
-@app.route('/store/<string:name>/item')
-def get_items_in_store(name):
+@app.route('/store/<string:store_name>/items')
+def get_items_in_store(store_name):
+    """Returns store items if exist, otherwise returns a jsonify 'not found' object.
+    
+    :param store_name: string
+    :returns: jsonify 'store' object, or jsonified 'not found' object.
+    """
     for store in stores:
-        if store['name'] == name:
+        if store['name'] == store_name:
             return jsonify({'items': store['items']})
 
     return jsonify({'message': 'store not found'})
